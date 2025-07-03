@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tablet</title>
+    <link rel="stylesheet" href="order.css">
+</head>
+<body>
+    <section class="order-container">
+        <h1>Place Your Order</h1>
+        <p id="product-name">Ordering: </p>
+
+        <form id="orderForm">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" required>
+
+            <label for="address">Address</label>
+            <textarea id="address" required></textarea>
+
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" required>
+
+            <label for="zipcode">Zipcode</label>
+            <input type="text" id="zipcode" required>
+
+            <button type="submit">Confirm Order</button>
+        </form>
+    </section>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('product');
+        document.getElementById('product-name').textContent += productName;
+
+        document.getElementById('orderForm').onsubmit = function(event) {
+            event.preventDefault();
+            alert("Order Confirmed!");
+            window.location.href = 'user-dashboard.html';
+        };
+    </script>
+</body>
+</html>

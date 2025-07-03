@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Pharmacy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Welcome to <span class="highlight">Online Pharmacy</span></h1>
+    </header>
+
+    <main class="main-container">
+        <section class="login-section">
+            <h2>Login As</h2>
+            <div class="login-buttons">
+                <a href="admin-login.html" class="btn" aria-label="Login as Admin">Admin</a>
+                <a href="user-login.html" class="btn" aria-label="Login as User">User</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; <span id="year"></span> Online Pharmacy. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Dynamic Copyright Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

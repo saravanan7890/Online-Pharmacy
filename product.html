@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="product.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <a href="user-dashboard.html">Back to Home</a>
+            <a href="index.html">Logout</a>
+        </nav>
+    </header>
+
+    <section class="product-container">
+        <div class="product-display" id="product-display">
+            <!-- Product Details -->
+        </div>
+    </section>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = urlParams.get('index');
+        const tablets = JSON.parse(localStorage.getItem('tablets')) || [];
+        const product = tablets[index];
+
+        const productDisplay = document.getElementById('product-display');
+
+        if (product) {
+            productDisplay.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <h1>${product.name}</h1>
+                <p><strong>Price:</strong> ₹${product.price}</p>
+                <p><strong>Description:</strong> High-quality medicine for daily use.</p>
+                <button onclick="redirectToOrder('${product.name}')">Order Now</button>
+            `;
+        }
+
+        function redirectToOrder(productName) {
+            window.location.href = `order.html?product=${encodeURIComponent(productName)}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Online Pharmacy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Admin Login</h1>
+    </header>
+
+    <main class="login-container">
+        <form id="adminLoginForm" class="login-form">
+            <h2>Login</h2>
+            <label for="admin-email">Email</label>
+            <input type="email" id="admin-email" required>
+            
+            <label for="admin-password">Password</label>
+            <input type="password" id="admin-password" required>
+
+            <button type="submit" class="btn">Login</button>
+            
+            <p>Don't have an account? <a href="admin-register.html">Register here</a></p>
+            <p id="error-message" style="color:red;"></p>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Online Pharmacy</p>
+    </footer>
+
+    <script>
+        document.getElementById('adminLoginForm').onsubmit = function(event) {
+            event.preventDefault();
+            
+            const adminEmail = document.getElementById('admin-email').value;
+            const adminPassword = document.getElementById('admin-password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // Hardcoded Admin Credentials
+            const correctEmail = 'admin@pharmacy.com';
+            const correctPassword = 'admin123';
+
+            if (adminEmail === correctEmail && adminPassword === correctPassword) {
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                errorMessage.textContent = 'Invalid credentials. Please try again.';
+            }
+        }
+    </script>
+</body>
+</html>

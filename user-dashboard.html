@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Online Pharmacy</title>
+    <link rel="stylesheet" href="user-dashboard.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <h1>Online Pharmacy</h1>
+            <ul>
+                <li><a href="#" onclick="displayTablets()">Home</a></li>
+                <li>
+                    <input 
+                        type="text" 
+                        id="search-bar" 
+                        placeholder="Search for tablets..." 
+                        onkeyup="filterTablets()"
+                    >
+                </li>
+                <li><a href="cart.html">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+                <li><a href="index.html" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="container">
+        <h2>Available Tablets</h2>
+        <div class="tablet-list" id="tablet-list">
+            <!-- Tablets will appear here -->
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Online Pharmacy</p>
+    </footer>
+
+    <script>
+        let tablets = JSON.parse(localStorage.getItem('tablets')) || [];
+        let cart = [];
+        const currentUser = localStorage.getItem('currentUser');
+
+        // Load User Cart
+        function loadUserCart() {
+            if (currentUser) {
+                cart = JSON.parse(localStorage.getItem(`cart_${currentUser}`)) || [];
+            } else {
+                cart = [];
+            }
+            updateCartCount();
+        }
+
+        // Display Tablets
+        function displayTablets(filteredTablets = tablets) {
+            const tabletList = document.getElementById('tablet-list');
+            tabletList.innerHTML = '';
+
+            if (filteredTablets.length === 0) {
+                tabletList.innerHTML = `<p>No tablets found.</p>`;
+                return;
+            }
+
+            filteredTablets.forEach((tablet, index) => {
+                tabletList.innerHTML += `
+                    <div class="tablet-item">
+                        <img src="${tablet.image}" alt="${tablet.name}">
+                        <h3>${tablet.name}</h3>
+                        <p>Price: ₹${tablet.price}</p>
+                        <button onclick="addToCart(${index})">Add to Cart</button>
+                    </div>
+                `;
+            });
+        }
+
+        // Search and Filter Tablets
+        function filterTablets() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const filteredTablets = tablets.filter(tablet => 
+                tablet.name.toLowerCase().includes(query)
+            );
+
+            displayTablets(filteredTablets);
+        }
+
+        // Add to Cart (User-Specific)
+        function addToCart(index) {
+            const selectedTablet = tablets[index];
+            const existingItem = cart.find(item => item.name === selectedTablet.name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                selectedTablet.quantity = 1;
+                cart.push(selectedTablet);
+            }
+
+            saveUserCart();
+            updateCartCount();
+            alert(`${selectedTablet.name} added to cart!`);
+        }
+
+        // Save User-Specific Cart
+        function saveUserCart() {
+            if (currentUser) {
+                localStorage.setItem(`cart_${currentUser}`, JSON.stringify(cart));
+            }
+        }
+
+        // Update Cart Count
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+
+        // Logout
+        function logout() {
+            saveUserCart();  // Save the user's cart before logout
+            localStorage.removeItem('currentUser');  // Clear current session
+            alert('Logged out successfully.');
+            window.location.href = 'index.html';
+        }
+
+        // Initialize Dashboard
+        window.onload = function () {
+            loadUserCart();
+            displayTablets();
+        };
+    </script>
+</body>
+</html>
+ 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Create User Account</h1>
+    </header>
+
+    <main class="login-container">
+        <form id="userRegisterForm" class="login-form">
+            <h2>Register</h2>
+            
+            <label for="user-name">Full Name</label>
+            <input type="text" id="user-name" required>
+
+            <label for="user-email">Email</label>
+            <input type="email" id="user-email" required>
+            
+            <label for="user-password">Password</label>
+            <input type="password" id="user-password" required>
+
+            <button type="submit" class="btn">Create Account</button>
+            <p id="register-message" style="color: green;"></p>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Online Pharmacy</p>
+    </footer>
+
+    <script>
+        document.getElementById('userRegisterForm').onsubmit = function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('user-name').value;
+            const email = document.getElementById('user-email').value;
+            const password = document.getElementById('user-password').value;
+            const registerMessage = document.getElementById('register-message');
+
+            // Store users in localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Check if user already exists
+            const userExists = users.some(user => user.email === email);
+            
+            if (userExists) {
+                registerMessage.textContent = 'User already registered. Please log in.';
+                registerMessage.style.color = 'red';
+            } else {
+                users.push({ name, email, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                registerMessage.textContent = 'Registration successful! You can now log in.';
+                registerMessage.style.color = 'green';
+                setTimeout(() => window.location.href = 'user-login.html', 1500);
+            }
+        }
+    </script>
+</body>
+</html>
